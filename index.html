@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epic Tech AI - Avatar Assistant</title>
+    <meta name="description" content="An advanced AI avatar assistant that can generate any type of media and learns from your interactions">
+    <meta name="theme-color" content="#6C63FF">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/images/avatar/frame-005.jpg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/modal.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <img src="/images/avatar/frame-005.jpg" alt="Epic Tech AI Logo" style="border-radius: 50%;">
+                <h1>Epic Tech AI</h1>
+            </div>
+            <div class="header-controls">
+                <button id="theme-toggle" class="control-button" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="export-button" class="control-button" aria-label="Export chat history" title="Export chat history">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button id="preferences-button" class="control-button" aria-label="Preferences" title="Preferences">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img id="avatar-image" class="avatar-image" src="/images/avatar/frame-005.jpg" alt="Epic Tech AI Avatar">
+                    <div class="avatar-status">Learning from your interactions...</div>
+                </div>
+                
+                <div class="avatar-info">
+                    <h2 class="avatar-name">Epic Tech</h2>
+                    <p class="avatar-description">Your personal AI assistant with media generation capabilities</p>
+                </div>
+                
+                <div class="avatar-controls">
+                    <button id="customize-avatar" class="avatar-control-button">
+                        <i class="fas fa-palette"></i> Customize Avatar
+                    </button>
+                    <button id="avatar-voice" class="avatar-control-button">
+                        <i class="fas fa-volume-up"></i> Voice Settings
+                    </button>
+                    <button id="avatar-personality" class="avatar-control-button">
+                        <i class="fas fa-brain"></i> Personality
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chat-section">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Welcome message -->
+                    <div class="message bot-message slide-in-left">
+                        <p>Hi there! I'm Epic Tech, your AI assistant. I can help you generate various types of media, answer questions, and learn from our interactions. What would you like to create today?</p>
+                        <div class="message-timestamp">Just now</div>
+                    </div>
+                </div>
+                
+                <!-- Media Preview Section (hidden by default) -->
+                <div id="media-preview" class="media-preview">
+                    <div class="media-preview-header">
+                        <div class="media-preview-title">Generated Media</div>
+                        <button id="media-preview-close" class="media-preview-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="media-preview-content">
+                        <img id="media-preview-image" class="media-preview-image" src="" alt="Generated Media">
+                    </div>
+                    <div class="media-preview-actions">
+                        <button id="media-preview-regenerate" class="media-preview-button media-preview-regenerate">
+                            <i class="fas fa-redo"></i> Regenerate
+                        </button>
+                        <button id="media-preview-download" class="media-preview-button media-preview-download">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <div class="input-field">
+                        <textarea id="user-input" class="user-input" placeholder="Type your message or request media generation..." rows="1"></textarea>
+                    </div>
+                    
+                    <div class="input-actions">
+                        <button id="attachment-button" class="input-button attachment-button" aria-label="Media options" title="Media options">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button id="mic-button" class="input-button mic-button" aria-label="Voice input" title="Voice input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button id="send-button" class="input-button send-button" aria-label="Send message" title="Send message">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Media Generation Options (hidden by default) -->
+                    <div id="media-options" class="media-options">
+                        <div class="media-option" data-type="image">
+                            <i class="fas fa-image"></i> Generate Image
+                        </div>
+                        <div class="media-option" data-type="audio">
+                            <i class="fas fa-music"></i> Generate Audio
+                        </div>
+                        <div class="media-option" data-type="video">
+                            <i class="fas fa-video"></i> Generate Video
+                        </div>
+                        <div class="media-option" data-type="code">
+                            <i class="fas fa-code"></i> Generate Code
+                        </div>
+                        <div class="media-option" data-type="chart">
+                            <i class="fas fa-chart-bar"></i> Generate Chart
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Preferences Modal (hidden by default) -->
+    <div id="preferences-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Preferences</h2>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="preference-group">
+                    <label for="theme-preference">Theme</label>
+                    <select id="theme-preference">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="system">System Default</option>
+                    </select>
+                </div>
+                
+                <div class="preference-group">
+                    <label for="avatar-style">Avatar Style</label>
+                    <select id="avatar-style">
+                        <option value="realistic">Realistic</option>
+                        <option value="anime">Anime</option>
+                        <option value="3d">3D Rendered</option>
+                        <option value="pixel">Pixel Art</option>
+                    </select>
+                </div>
+                
+                <div class="preference-group">
+                    <label for="voice-preference">Voice</label>
+                    <select id="voice-preference">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="neutral">Gender Neutral</option>
+                    </select>
+                </div>
+                
+                <div class="preference-group checkbox">
+                    <input type="checkbox" id="timestamps-preference" checked>
+                    <label for="timestamps-preference">Show message timestamps</label>
+                </div>
+                
+                <div class="preference-group checkbox">
+                    <input type="checkbox" id="speech-recognition-preference" checked>
+                    <label for="speech-recognition-preference">Enable speech recognition</label>
+                </div>
+                
+                <div class="preference-group checkbox">
+                    <input type="checkbox" id="notification-sounds-preference" checked>
+                    <label for="notification-sounds-preference">Enable notification sounds</label>
+                </div>
+                
+                <div class="preference-group checkbox">
+                    <input type="checkbox" id="auto-scroll-preference" checked>
+                    <label for="auto-scroll-preference">Auto-scroll to new messages</label>
+                </div>
+                
+                <div class="preference-group">
+                    <label for="learning-rate">Learning Rate</label>
+                    <input type="range" id="learning-rate" min="1" max="10" value="5">
+                    <div class="range-labels">
+                        <span>Slower</span>
+                        <span>Faster</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="reset-preferences-button">Reset to Defaults</button>
+                <button id="save-preferences-button" class="primary-button">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Avatar Customization Modal (hidden by default) -->
+    <div id="avatar-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Customize Avatar</h2>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-gallery">
+                    <div class="avatar-option selected" data-avatar="/images/avatar/frame-005.jpg">
+                        <img src="/images/avatar/frame-005.jpg" alt="Epic Tech Avatar 1">
+                    </div>
+                    <div class="avatar-option" data-avatar="/images/avatar/frame-003.jpg">
+                        <img src="/images/avatar/frame-003.jpg" alt="Epic Tech Avatar 2">
+                    </div>
+                    <div class="avatar-option" data-avatar="/images/avatar/frame-004.jpg">
+                        <img src="/images/avatar/frame-004.jpg" alt="Epic Tech Avatar 3">
+                    </div>
+                    <div class="avatar-option" data-avatar="/images/avatar/frame-012.jpg">
+                        <img src="/images/avatar/frame-012.jpg" alt="Epic Tech Avatar 4">
+                    </div>
+                </div>
+                
+                <div class="avatar-upload">
+                    <label for="avatar-upload-input">Or upload your own avatar:</label>
+                    <input type="file" id="avatar-upload-input" accept="image/*">
+                </div>
+                
+                <div class="avatar-name-input">
+                    <label for="avatar-name-field">Avatar Name:</label>
+                    <input type="text" id="avatar-name-field" value="Epic Tech">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-avatar-button">Cancel</button>
+                <button id="save-avatar-button" class="primary-button">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Export Modal (hidden by default) -->
+    <div id="export-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Chat History</h2>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Choose a format to export your chat history:</p>
+                <div class="export-options">
+                    <button data-format="text" class="export-option-button">Text (.txt)</button>
+                    <button data-format="html" class="export-option-button">HTML (.html)</button>
+                    <button data-format="json" class="export-option-button">JSON (.json)</button>
+                    <button data-format="markdown" class="export-option-button">Markdown (.md)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/app.js"></script>
+</body>
+</html>
